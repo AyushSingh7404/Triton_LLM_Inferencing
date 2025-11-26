@@ -1,0 +1,24 @@
+# Core PyTorch (CUDA 12.1 build, matches Triton base image)
+torch==2.1.2+cu121
+torchaudio==2.1.2+cu121
+--extra-index-url https://download.pytorch.org/whl/cu121
+
+# Core dependencies
+numpy
+scipy
+tqdm
+einops
+unidecode
+soundfile
+
+# Hugging Face stack (compatible with tokenizers 0.14.x)
+transformers==4.31.0
+tokenizers==0.13.3
+huggingface_hub==0.16.4
+accelerate==0.21.0
+
+# Tortoise extra deps
+rotary_embedding_torch
+inflect
+progressbar
+librosa

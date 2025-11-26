@@ -1,0 +1,35 @@
+name: "room_model"
+platform: "pytorch_libtorch"
+
+max_batch_size: 1
+
+input [
+  {
+    name: "x.1"         # Matches your graph exactly
+    data_type: TYPE_FP32
+    format: FORMAT_NCHW
+    dims: [3, 300, 300]
+  }
+]
+
+output [
+  {
+    name: "output__0"   # Default name for TorchScript
+    data_type: TYPE_FP32
+    dims: [2]
+  }
+]
+
+instance_group [
+  {
+    kind: KIND_GPU
+  }
+]
+
+optimization {
+  execution_accelerators {
+    gpu_execution_accelerator : [ {
+      name : "auto_mixed_precision"
+    }]
+  }
+}

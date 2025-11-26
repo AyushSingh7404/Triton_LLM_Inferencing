@@ -1,0 +1,30 @@
+# Use python backend since we have a custom Python model
+backend: "python"
+
+# Configure input and output specifications
+input [
+  {
+    name: "PROMPT"
+    data_type: TYPE_STRING
+    dims: [ 1 ]
+  }
+]
+
+output [
+  {
+    name: "OUTPUT"
+    data_type: TYPE_STRING
+    dims: [ 1 ]
+  }
+]
+
+# Instance configuration - keep single instance to avoid memory issues
+instance_group [
+  {
+    count: 1
+    kind: KIND_MODEL
+  }
+]
+
+# Model versioning
+default_model_filename: "model.py"

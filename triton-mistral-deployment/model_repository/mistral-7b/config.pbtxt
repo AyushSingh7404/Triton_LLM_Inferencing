@@ -1,0 +1,52 @@
+name: "mistral-7b"
+backend: "python"
+max_batch_size: 4
+
+input [
+  {
+    name: "INPUT_TEXT"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  },
+  {
+    name: "MAX_TOKENS"
+    data_type: TYPE_INT32
+    dims: [ 1 ]
+    optional: true
+  },
+  {
+    name: "TEMPERATURE"
+    data_type: TYPE_FP32
+    dims: [ 1 ]
+    optional: true
+  }
+]
+
+output [
+  {
+    name: "OUTPUT_TEXT"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  }
+]
+
+instance_group [
+  {
+    count: 1
+    kind: KIND_GPU
+    gpus: [ 0 ]
+  }
+]
+
+dynamic_batching {
+  max_queue_delay_microseconds: 100000
+  default_queue_policy {
+    timeout_action: REJECT
+    default_timeout_microseconds: 30000000
+  }
+}
+
+parameters: {
+  key: "EXECUTION_ENV_PATH",
+  value: {string_value: "$$TRITON_MODEL_DIRECTORY"}
+}
